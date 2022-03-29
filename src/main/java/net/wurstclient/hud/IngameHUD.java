@@ -7,6 +7,9 @@
  */
 package net.wurstclient.hud;
 
+import net.minecraft.client.font.TextRenderer;
+import net.wurstclient.hacks.WaypointsHack;
+import net.wurstclient.waypoints.Waypoint;
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -16,6 +19,8 @@ import net.wurstclient.WurstClient;
 import net.wurstclient.clickgui.ClickGui;
 import net.wurstclient.clickgui.screens.ClickGuiScreen;
 import net.wurstclient.events.GUIRenderListener;
+
+import java.text.DecimalFormat;
 
 public final class IngameHUD implements GUIRenderListener
 {
@@ -51,6 +56,9 @@ public final class IngameHUD implements GUIRenderListener
 		// pinned windows
 		if(!(WurstClient.MC.currentScreen instanceof ClickGuiScreen))
 			clickGui.renderPinnedWindows(matrixStack, partialTicks);
+
+		//waypoint
+		drawWaypoint(matrixStack);
 		
 		// GL resets
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
@@ -60,6 +68,19 @@ public final class IngameHUD implements GUIRenderListener
 			GL11.glEnable(GL11.GL_BLEND);
 		else
 			GL11.glDisable(GL11.GL_BLEND);
+	}
+
+	public void drawWaypoint(MatrixStack matrixStack) {
+		WaypointsHack waypoints = WurstClient.INSTANCE.getHax().waypointsHack;
+		if(waypoints.isEnabled() && waypoints.selectedWaypoint != null) {
+			int screenWidth = WurstClient.MC.getWindow().getScaledWidth();
+			TextRenderer tr = WurstClient.MC.textRenderer;
+			String str = "Active Waypoint: " + waypoints.selectedWaypoint.getName();
+			String dist = "Distance: " + new DecimalFormat("##,###,###").format(waypoints.selectedWaypoint.getPos().
+					distanceTo(WurstClient.MC.player.getPos()));
+			tr.drawWithShadow(matrixStack, str, (screenWidth/2)-(tr.getWidth(str)/2), 2, 0xFFFFFF);
+			tr.drawWithShadow(matrixStack, dist, (screenWidth/2)-(tr.getWidth(dist)/2), 12, 0xFFFFFF);
+		}
 	}
 	
 	public HackListHUD getHackList()

@@ -115,4 +115,8 @@ public abstract class Hack extends Feature
 	{
 		
 	}
+
+	public boolean processCmd(String cmd) {
+		return false;
+	}
 }

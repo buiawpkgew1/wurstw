@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import net.wurstclient.waypoints.WaypointList;
 import org.lwjgl.glfw.GLFW;
 
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -64,6 +65,7 @@ public enum WurstClient
 	private HackList hax;
 	private CmdList cmds;
 	private OtfList otfs;
+	private WaypointList waypointList;
 	private SettingsFile settingsFile;
 	private Path settingsProfileFolder;
 	private KeybindList keybinds;
@@ -73,7 +75,7 @@ public enum WurstClient
 	private IngameHUD hud;
 	private RotationFaker rotationFaker;
 	private FriendsList friends;
-	
+
 	private boolean enabled = true;
 	private static boolean guiInitialized;
 	private WurstUpdater updater;
@@ -84,7 +86,7 @@ public enum WurstClient
 	public void initialize()
 	{
 		System.out.println("Starting Wurst Client...");
-		
+
 		wurstFolder = createWurstFolder();
 		
 		String trackingID = "UA-52838431-5";
@@ -100,6 +102,10 @@ public enum WurstClient
 		cmds = new CmdList();
 		
 		otfs = new OtfList();
+
+		Path waypointsFile = wurstFolder.resolve("waypoints.json");
+		waypointList = new WaypointList(waypointsFile);
+		waypointList.load();
 		
 		Path settingsFile = wurstFolder.resolve("settings.json");
 		settingsProfileFolder = wurstFolder.resolve("settings");
@@ -233,6 +239,10 @@ public enum WurstClient
 	public OtfList getOtfs()
 	{
 		return otfs;
+	}
+
+	public WaypointList getWaypointList() {
+		return waypointList;
 	}
 	
 	public Feature getFeatureByName(String name)
