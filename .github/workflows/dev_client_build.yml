@@ -29,7 +29,7 @@ jobs:
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@859c33240bd026ce8d5f711f5adcc65c2f8eafc1
       - name: Build with Gradle
-        uses: gradle/gradle-build-action@26ea4afa082ddf7e3e5bcf6d12283111b6f3f837
+        uses: gradle/gradle-build-action@c48eef1c6ec288c3b360cc2200b5a61333bd2ec1
         with:
           arguments: makeDevZip
       - uses: actions/upload-artifact@v3
