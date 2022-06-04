@@ -29,7 +29,7 @@ jobs:
         uses: gradle/wrapper-validation-action@859c33240bd026ce8d5f711f5adcc65c2f8eafc1
       - name: Build with Gradle
         id: builder
-        uses: gradle/gradle-build-action@5fe4df62336d49399d24579bce2d5c4a33ddac1a
+        uses: gradle/gradle-build-action@fe92974cdf2a820784f8d55ceff836f4c68e3867
         with:
           arguments: makeReleaseZip
 
